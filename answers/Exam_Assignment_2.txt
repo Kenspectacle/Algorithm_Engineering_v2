@@ -1,0 +1,21 @@
+1. What causes false sharing?
+
+-Each processor has its own local cache. False Sharing happens when 2 processors tries to use data from the same cacheline. 
+The data in both processor must be updated in order to maintain cache coherency
+
+2.How do mutual exclusion constructs prevent race
+conditions?
+
+3.Explain the differences between static and dynamic
+schedules in OpenMP.
+
+4.What can we do if we’ve found a solution while running
+a parallel for loop in OpenMP, but still have many
+iterations left?
+
+5. Do the coding warmup on slide 22. Explain in your own
+words how std::atomic::compare_exchange_weak
+work
+
+6.Rewrite the parallel program for estimating π from the
+last exercise to use the construct #pragma omp for
