@@ -6,16 +6,41 @@ The data in both processor must be updated in order to maintain cache coherency
 2.How do mutual exclusion constructs prevent race
 conditions?
 
+-Mutual exclusion prevents the possibility of two processess executing in a certain critical section. The main reason is that,
+when we use our updated data from a thread to another thread, we won't be using our old data instead.
+
 3.Explain the differences between static and dynamic
 schedules in OpenMP.
+
+-Static scheduling determines the scheduling of the iterations during compile time. 
+It tries to schedule it in chunks that goes around the each threads in a circular manner.
+
+-Dynamic scheduling determines the scheduling of the iterations during runtime.
+It schedules the chunks in a way, such that it will try to balance out the load by
+allocating the chunks to the threads that has the least amount for each chunk size allocation.
+Has some overhead calculation to be made during runtime.
+
+-Dynamic is used when we have unbalanced load each iteration, and static is when the load of each iteration is the same
+
 
 4.What can we do if we’ve found a solution while running
 a parallel for loop in OpenMP, but still have many
 iterations left?
 
+-There are 2 ways of handling this issue:
+->case 1: stopping the rest of the thread once a stop condition is fulfilled
+->case 2: the hack way, by minimizing computation by repeating continue until the end of the for loop
+
 5. Do the coding warmup on slide 22. Explain in your own
 words how std::atomic::compare_exchange_weak
 work
+
+-std::atomic::compare_exchange_weak 
+is an atomic instruction as one of the way to achieve synchronization. 
+The value within the thread(contained value) is compared to the value in the memory(expected)
+if returns true: replace contained value with expected
+if returns false: replaces expected with contained value
+the entire operation is atomic
 
 6.Rewrite the parallel program for estimating π from the
 last exercise to use the construct #pragma omp for
