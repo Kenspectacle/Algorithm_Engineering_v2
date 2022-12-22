@@ -1,0 +1,43 @@
+1. How does the ordered clause in OpenMP work in
+conjunction with a parallel for loop?
+
+- During a parallel for loop, the threads all execute concurrently until
+the compiler directive #pragma omp ordered is issued, such that within the region
+all of the threads execute sequentially.
+
+2. What is the collapse clause in OpenMP good for?
+
+- When we have nested for loops, and we want to parallelize them. We can directly use
+clause(number of loops) in our OpenMP parallel for.
+
+3. Explain how reductions work internally in OpenMP.
+
+- Make copies of each of the objects literals within the list. Then perform
+the operation with each of the copies and reduce it into a single value
+then combine it with the original global value
+
+4. What is the purpose of a barrier in parallel computing?
+
+- Barrier is used to stop the threads at a certain point such that all of the threads
+will be able to be synchronized. It is useful for example in our OpenMP paradigma. 
+A barrier is performed for example at the end of "for" "sections" "single" and "parallel" constructs.
+
+5. Explain the differences between the library routines
+omp_get_num_threads(), omp_get_num_procs() and
+omp_get_max_threads().
+
+- omp_get_num_threads(): get the number of threads
+- omp_get_num_procs(): get the number of logical processors 
+- omp_get_max_threads(): check the maximum number of theads within a parallel region
+
+6. Clarify how the storage attributes private and firstprivate
+differ from each other.
+
+- storage attribute private: Make a copy of the variable in each thread, however it is not initialized
+
+- storage attribute firstprivate: also make a copy of the variable, however the initialization persist into the thread.
+
+7. Do the coding warmup on slide 18. Write in pseudo
+code how the computation of π can be parallelized
+with simple threads.
+
