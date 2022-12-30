@@ -1,0 +1,17 @@
+1. What is CMake?
+
+-CMake is a command based language, that only has one command per line. It is used as a build tool builder, whereas the build tool itself is
+the Makefile. With CMake, you are able to set out specifications and dependencies required by the project that you are making a build tool out of.
+It makes it possible to re-generate build tool much easier when modification(s) is made through having a CMake file.
+
+2. What role do targets play in CMake?
+
+-Target is the thing that we want to build in CMake. There are executables and libraries. Targets themselves can be think of as an object.
+And the parameters that you insert into a target are called the properties. Using targets, it helps you to describe the structure of your
+project and how to build it.
+
+3. How would you proceed to optimize code?
+
+-To optimize code, one of the way to do it is to do profiling. It means that we are able to find the bottleneck that makes the program slow.
+How it works is that, the profiling output(for example made using Valgrind). Will show the amount of time proportion used in each line of the code.
+The output then, can be visualized by for an example, kcachegrind, making it easier to read for the programmer.
