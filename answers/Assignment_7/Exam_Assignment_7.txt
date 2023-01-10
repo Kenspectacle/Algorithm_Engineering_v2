@@ -1,0 +1,47 @@
+1. Explain three vectorization clauses of your choice that
+can be used with #pragma omp simd.
+
+- simdlen:
+Sets how many vector register that you want to use in your computation. It may negatively affect performance. Usually it is an optional clause.
+
+- reduction:
+Perform a correct reduction operation for a computation. It will output the correct result at the end.
+OpenMP does not support min() and max() operation in terms of reduction.
+
+- collapse(n):
+Collapse multiple for loops, such that it is possible to run nested for loops in parallel.
+
+2. Give reasons that speak for and against vectorization
+with intrinsics compared to guided vectorization with
+OpenMP.
+
+- for:
+-> more control for the programmer
+-> similar performance on multiple compilers (performance portable).
+
+- against:
+-> Harder to use
+-> Intrinsics data type and intrinsics functions are dependent on the architecture of the processor
+
+
+3. What are the advantages of vector intrinsics over
+assembly code?
+
+- the advantages of vector intrinsics are that, they are more portable, such that different compilers and operating systems
+can perform the same way.
+
+- No need to explicitly assign each of the registers.
+
+- Better readability and it is easier to learn.
+
+4. What are the corresponding vectors of the three
+intrinsic data types: __m256, __m256d and __m256i.
+
+- __m256:
+8 float numbers
+
+- __m256d:
+4 double numbers
+
+- __m256i:
+different kind of integers, either signed or unsigned
