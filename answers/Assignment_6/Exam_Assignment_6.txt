@@ -1,0 +1,45 @@
+1. Name some characteristics of the instructions sets:
+SSE, AVX(2) and AVX-512.
+
+- SSE:
+-> Introduced in 1999.
+-> Contains 70 new instructions compared to the original x86 architecture instruction set
+-> Has xmm0-xmm7 vector registers, each 128 bits larger
+-> Only capable of four 32-bits single-precision floating point numbers(later expanded in SSE2)
+-> allows 2 operands format
+
+
+- AVX(2):
+-> AVX was first introduced in 2011 and AVX2 was first made in 2013
+-> supports 256 bits 
+-> uses 16 YMM registers
+--> each register can perform eight 32 bit single precision floating point numbers original
+    four 64-bit double-precision floating point numbers
+-> More instructions in AVX and even more in AVX2
+-> allows 3 operands SIMD instruction format, called VEX coding scheme.
+
+- AVX-512:
+-> allows 4 operands SIMD instruction called EVEX prefix
+-> supports 512 bits
+-> Number of register is increased from 16 to 32 (renamed from YMM to ZMM)
+-> More instructions
+
+
+
+2. How can memory aliasing affect performance?
+
+- The compiler is able to do optimizaton such as vectorization 
+when it can determine whether the memory location is unique
+
+3. What are the advantages of unit stride (stride-1)
+memory access compared to accessing memory with
+larger strides (for example, stride-8)?
+
+- The compiler will be able to access the code faster and it will make it easier to vectorize
+
+
+4. When would you prefer arranging records in memory as a
+Structure of Arrays?
+
+- When we want to do computation with multiple arrays utilizing our vector registers. 
+It helps the vector register in accessing the memory elements with stride 1 for each of the element.
