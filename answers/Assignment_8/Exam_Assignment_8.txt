@@ -1,0 +1,43 @@
+1. Explain the naming conventions for intrinsic functions.
+(_<vector_size>_<operation>_<suffix>)
+
+- <vector_size> : it refers to the size of the vector extension that is being used,
+there are 3 options, mm for 128-bit vectors(SSE), mm256 for 256-bit vectors(AVX(2)), and mm512 for 512-bit vectors(AVX-512)
+
+- <operation> : Explains which operation the vectors are going to do
+
+- <suffix> : identifies the datatypes used within the vectors
+
+2. What do the metrics latency and throughput tell you
+about the performance of an intrinsic function?
+
+- latency : The amount of cycles the intrinsic function needs until it's result is available.
+
+- throughput : The amount of cycles needed, until the intrinsic function can do another instruction
+
+3. How do modern processors realize instruction-level
+parallelism?
+
+- Instruction Pipelining : Enables multiple execution of different instructions partially overlapping
+
+- Out of Order Execution : Performs execution based on the availability of the input data, not based on the order of the program itself
+
+- Branch Prediction : Tries to predict whether a branch (for example, in an if statement) was taken or not. The branch that was taken is then 
+run with speculative execution.
+
+- Speculative Execution : The processor, based on history (memory dependence prediction for example)
+in some cases, will try to execute the code after the branch without evaluating the branch. Then it will decide to dispose of the result or not
+based on whether the branch was taken or not.
+
+4. How may loop unrolling affect the execution time of
+compiled code?
+
+- It is able to do speed ups, in some cases by some factors.
+However, it comes with a great cost, such that it will cause increased compile times, program sizes, and space usage(in the instruction cache).
+May also have a higher demand for registers.
+
+5. What does a high IPC value (instructions per cycle) mean
+in terms of the performance of an algorithm?
+
+- It means that it is performing Instruction Level Parallelism(ILP). This is a very efficient
+usage of the CPU. With higher IPC, the lower amount of cycles needed to go through all of the instructions.
