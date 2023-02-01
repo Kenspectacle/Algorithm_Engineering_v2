@@ -1,0 +1,50 @@
+1. How do bandwidth-bound computations differ from
+compute-bound computations?
+
+- bandwith-bound computation :
+This is the kind of computation that depends on the memory access, which consist of its temporal and spatial locality.
+
+- compute-bound computation :
+Compute-bound computation on the other hand, depends on the speed of the CPU itself.
+
+2. Explain why temporal locality and spatial locality can
+improve program performance.
+
+- temporal locality :
+temporal locality enables data that are already loaded into the caches to be reused again. And thus minimizing the need of memory access,
+such that it will provide speed up
+
+- spatial locality :
+spatial locality helps by maximizing the amount of data that are accessed in a single cache line. By improving the algorithm, such that
+the stride of the memory access is small, the amount of cache line that needs to be called will be minimized, and thus the amount of memory access
+will be also in turn, minimized.
+
+3. What are the differences between data-oriented design
+and object-oriented design?
+
+- object-oriented design/programming (OOP):
+Objects are the main focus of object-oriented design. The programmer focus more on how an object is defined, how it functions, and to design
+what kind of data belongs to the object.
+
+- data-oriented design (DOD) :
+Shifts the main focus of the programmer from the object, into the data itself and how it is laid out in the memory.
+In data oriented programming, everything is regarded as data and ideally structure the data as closely to the output as possible.
+Uses Structure of Arrays, instead of Array of Structures.
+
+4. What are streaming stores?
+
+- Streaming store is an operation that sends the data from the CPU result directly to the RAM. This is very useful when it is irrelevant to
+store the results in the cache if the result data themselves are not going to be used shortly after. 
+
+5. Describe a typical cache hierarchy used in Intel CPUs.
+
+- The cache hierarchy in Intel CPUs are comprised of L1-d cache, L1-i cache, L2 cache, L3 cache. L1-d and L1-i cache are the fastest SRAM caches. 
+They are directly embedded on the chip. L2 are slower than L1 and are off chip, however has much more capacity. L3 has way much more capacity and is 
+connected to all of the cores.
+
+6. What are cache conflicts?
+
+- It is a problem, that happens when the cache takes the cacheline and put it into the same "bucket" each time a cacheline is accessed. It is 
+comparable to hash conflict, but instead of the hash function resulting the same result all the time, the CPU in this case put the same cacheline
+into the same bucket. This results in the bucket trashing and being replaced all the time.
+
