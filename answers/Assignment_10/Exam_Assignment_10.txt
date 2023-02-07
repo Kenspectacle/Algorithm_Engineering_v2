@@ -1,0 +1,37 @@
+1. Name and explain some useful compiler flags during
+development.
+
+- -Wall :
+Helps with the verbosity of the compiler. -W specificies the warning flags.
+-Wall turns on a lot of the warning flags, such as -Waddress, -Wcomment, -Wbool-compare,
+-Wuninitialized, -Wunknown-pragmas, -Wunused-value, etc.
+
+- -g :
+Generates a file that contains the debug information, that can be used by a
+debugger and profiler.
+
+- fsanitize=address :
+It looks for memory leaks and use-after-free bugs. According to Clang's documentation,
+the average slowdown made by this compiler flag is 2x.
+The address sanitizer will exit as soon as it encounters the first error, with a nonzero exit code.
+
+- fsanitize= undefined :
+UndefinedBehaviourSanitizer(UBSan) is an undefined behaviour detector.
+It detects undefined behaviour, such as integer overflow or array subscript out of bound, where the bounds can be statistically determined.
+
+2. How could Intel oneAPI help you write better
+programs?
+
+- It allows cross-platform implementation of C++ programs. With it,
+it defines CPU/GPU/FPGA/and other hardware accelerators as XPUs and 
+making it possible to run with a single code. It reduces cost and development time this way
+and also reduces risk of error.
+
+3. What can we learn from the following quote?
+Premature optimization is the root of all evil (Donald
+Knuth). 
+
+- It does not make sense to try and figure out the most optimal implementation
+right from the start. It will just be unnecessary waste of time and energy to do so. 
+The best way to write optimized programs is to first write a working program,
+and then start profiling it and optimizing it iteratively this way.
