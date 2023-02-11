@@ -1,0 +1,54 @@
+1. What is Cython?
+
+- A superset of the Python programming language that compiles to C. 
+With it, it is possible to give C-like static type declarations and with it,
+improve the performance massively.
+
+2. Describe an approach how Python programs can be
+accelerated with the help of Cython.
+
+- Cython makes it possible to have the variables be declared with a static datatype.
+It is also possible to opt for safety or speed using compiler directives for Cython.
+Cython instead of getting interpreted, is instead compiled into a C file which can be compiled
+into an object file using regular C compilers.
+
+3. Describe two ways for compiling a .pyx Cython
+module.
+
+- Using the command line, using the command cythonize -i -a FileName.pyx
+
+- Using pyximport at the start of the python script, to recompile it each time the python script is run.
+
+4. Name and describe two compiler directives in Cython. 
+
+- cython: boundcheck
+In the compiler, they check whether an array is out of bound during operation.
+If the programmer is confident that the array won't get out of bound, it is possible
+to trade the safety of boundcheck with performance by setting it to false.
+If the index does goes out of bound with it turned off, the best scenario is the program would crash,
+and at worse the data may be corrupted. Default is True
+
+- cython: wraparound
+Ignores checking for negative index. In Python it is possible to access negative index
+of a list/array data structure such as A[-1]. However, in C it is not supported and will result in
+IndexError. Default is True
+
+5. What is the difference between def, cdef and cpdef when
+declaring a Cython function?
+
+- def :
+def will explicitly make the function for Python 
+
+- cdef :
+cdef means that the function is explicitly only Cython
+
+- cpdef :
+cpdef makes it possible, such that the function can be either Python or Cython
+
+6. What are typed memoryviews especially useful for in
+Cython?
+Typed memoryviews allow Cython to compile the Python code into C file while
+reducing the amount of interfacing between Python and C, and thus improving 
+the performance significantly (often times, by plenty of factors).
+
+-
