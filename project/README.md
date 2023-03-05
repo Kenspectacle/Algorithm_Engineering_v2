@@ -8,15 +8,20 @@ In order to use this library, you must first install OpenCV and OpenMP
 
 ### OpenCV Quick Start
 
-# Install minimal prerequisites (Ubuntu 18.04 as reference)
+Install minimal prerequisites (Ubuntu 18.04 as reference)
 sudo apt update && sudo apt install -y cmake g++ wget unzip
-# Download and unpack sources
+
+Download and unpack sources:
 wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
 unzip opencv.zip
-# Create build directory
+
+Create build directory:
 mkdir -p build && cd build
-# Configure
+
+Configure:
 cmake  ../opencv-4.x
-# Build
+
+
+Build:
 cmake --build .
 
