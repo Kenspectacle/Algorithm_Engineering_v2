@@ -1,0 +1,70 @@
+1. Delimit from each other the following SSD parts: Cells,
+Pages and Blocks.
+
+- Cells:
+The bits are stored in cells. Depending on the cell levels:
+Single Level Cell - can only store 1 bit
+Multiple Level Cell - stores 2 bits in a single cell
+Triple Level Cell - stores 3 bits in a single cell
+Quad Level Cell - stores 4 bits in a single cell
+Single level cell is the most durable out of them all, since the guardband between the states in single level cell is the largest.
+The other way around, quad level cell is the most unstable and cheapest option, since a single cell stores 4 bits and the guardband between the states is the smallest.
+
+- Pages:
+The smallest read/write unit within an SSD. A typical size would be 4 KB. There are no overwriting operation within an SSD. 
+The updated data will be stored in another page and the outdated data will be stated as "Stale" or invalid, until it is finally deleted.
+
+- Blocks:
+A block is the smallest size of unit to perform a Delete operation in an SSD. The typical size of a block is 512 KB or 1 MB. 
+The not for deleting part of a block is first copied to another block before deleting the block.
+
+
+2. What is the purpose of garbage collection in SSDs?
+
+- It makes it possible to write on more blocks in the SSD. In order to write in the SSD, you must free the block from stale pages, since overwriting is impossible.
+
+3. What is the purpose of wear leveling in SSDs?
+
+- Wear leveling makes it so that the blocks in the SSDs wear out evenly at the same rate. This will extend the lifetime of an SSD.
+
+4. Tell some interesting things about SSDs with an M.2 form
+factor.
+
+- M.2. form factor :
+There are different sizes in M.2., mostly determined by their width and height. 
+
+5. What influence do garbage collection and wear leveling
+have on write amplification of an SSD?
+
+- garbage collection :
+Moves the updated data into another block and delete the old block that also contains the stale pages. In this case, this will increase the write amplification of the SSD
+
+- wear leveling :
+Moves older data in a block, to another block to make sure that the blocks wear out at the same rate. It increases the writing amplification.
+
+6. Discuss three different recommendations for writing code
+for SSDs.
+
+a. Compact data structure
+- Save multiple logs and such in one file, such that it will be compact. 
+This way the whole page will be utilized and it will improve efficiency/performance and saves the SSD's life
+
+b. Avoid making the SSD full
+- The SSD needs the extra space to run its garbage collector TRIM.
+It also reduces performance significantly, as it makes IO operation much harder.
+
+c. Fewer threads on big IO and multiple threads on small IO
+- Multiple threads on smaller IO takes advantage of the SSDs' internal parallelism.
+Bigger IO does not require that many threads, as in the end it will be more of a Sequential read/write.
+
+7. How could the CPU load for IO be reduced?
+
+- Using asynchronous IO, instead of blocking IO
+
+- Disable the OS buffering 
+
+8. How could you solve problems that do not fit in DRAM
+without major code adjustments?
+
+- It is possible to do a Memory-mapped files on flash. 
+It takes smaller segments of the file without putting it all directly in the memory.
