@@ -38,8 +38,8 @@ Thumbs.db
 
 # Image files #
 ####            #####
-.jpg
-.png
-.jpeg
-.bmp
-.ppm
+*.jpg
+*.png
+*.jpeg
+*.bmp
+*.ppm
