@@ -47,8 +47,17 @@ int main(int argc, const char **argv)
     // Convert from 2D Array to Mat object
 
     // malloc 
+    int *flat_img = new int[img.rows*img.cols];
 
-    // Mat A(img.rows, img.cols, CV_64F, squares);
+    int k = 0;
+    for (int i = 0; i < img.rows; i++) {
+        for (int j = 0; j < img.cols; j++) {
+            flat_img[k] = squares[i][j];
+            k++;
+        }
+    }
+
+    Mat A(img.rows, img.cols, CV_64F, flat_img);
 
     std::cout << "Squares:" << squares[0][2];
     // Clean up when done
@@ -64,7 +73,7 @@ int main(int argc, const char **argv)
     std::cout<<"test line "<<__LINE__<<"\n";
 
     squares = nullptr;
-    imshow("Display window", img);
-    int k = waitKey(0); // Wait for a keystroke in the window
+    imshow("Display window", A);
+    int wait = waitKey(0); // Wait for a keystroke in the window
     return 0;
 }
