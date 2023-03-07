@@ -24,13 +24,11 @@ int main(int argc, const char **argv)
 
     // Allocate
 
-    int **squares = new int *[img.rows];
+    std::vector<std::vector<int>> imageVect( img.rows, std::vector<int> (img.cols, 0));
+    std::vector<std::vector<int>> paddedImageVect( img.rows + 2, std::vector<int> (img.cols + 2, 0));
 
-    for (int x = 0; x < img.rows; ++x)
-    {
-        squares[x] = new int[img.cols];
-    }
-    std::cout<<"test line "<<__LINE__<<"\n";
+    std::cout << "testing vector:" << std::endl;
+    std::cout << "imagevect size: "<< imageVect.back().size() << "\n" << "paddedImageVect Size: " << paddedImageVect.back().size(); 
 
     // Convert from Mat object to 2D Array
 
@@ -39,41 +37,50 @@ int main(int argc, const char **argv)
         for (int j = 0; j < img.cols; j++)
         {
             int extracted = img.at<uchar>(i, j);
-            std::cout << extracted << std::endl;
-            squares[i][j] = extracted;
+            // std::cout << extracted << std::endl;
+            imageVect[i][j] = extracted;
+            paddedImageVect[i+1][j+1] = extracted;
         }
     }
 
-    // Convert from 2D Array to Mat object
+    //TO BE REFACTORED!!!
 
-    // malloc 
+    // for (int i = 1; i)
+
+    // Convert from 2D Array to Mat object
     int *flat_img = new int[img.rows*img.cols];
 
     int k = 0;
     for (int i = 0; i < img.rows; i++) {
         for (int j = 0; j < img.cols; j++) {
-            flat_img[k] = squares[i][j];
+            flat_img[k] = imageVect[i][j];
             k++;
         }
     }
 
-    Mat A(img.rows, img.cols, CV_64F, flat_img);
-
-    std::cout << "Squares:" << squares[0][2];
+    Mat A(img.rows, img.cols, CV_8U, flat_img);
+    std::cout << "A cols: " << A.cols <<"\n";
+    std::cout << "A rows: " << A.rows <<"\n";
+    std::cout << "img cols: " << img.cols <<"\n";
+    std::cout << "img rows: " << img.rows <<"\n";
+    std::cout << "Squares:" << imageVect[0][2];
+    
     // Clean up when done
     std::cout<<"test line "<<__LINE__<<"\n";
 
-    for (int x = 0; x < img.rows; ++x)
-    {
-        delete[] squares[x];
-    }
     std::cout<<"test line "<<__LINE__<<"\n";
 
-    delete[] squares;
+    delete[] flat_img;
     std::cout<<"test line "<<__LINE__<<"\n";
 
-    squares = nullptr;
-    imshow("Display window", A);
-    int wait = waitKey(0); // Wait for a keystroke in the window
+    // // imageArr = nullptr;
+    // imshow("Display window", A);
+    // std::cout<<"test line "<<__LINE__<<"\n";
+    // int wait = waitKey(0); // Wait for a keystroke in the window
+    // std::cout<<"test line "<<__LINE__<<"\n";
+
+    // testing small image
+    // int test_image_array[4]; // row major
+    // test_image_array = [255, 255, 0, 0];
     return 0;
 }
