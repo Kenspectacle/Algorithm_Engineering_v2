@@ -2,39 +2,39 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
+#include "ImageFilter.hpp"
 
-#define KERNEL_SIZE 3
 #define PAD_SIZE
 
 using namespace cv;
 
-std::vector<std::vector<int>> gaussian_filter(std::vector<std::vector<int>> paddedImageVect, int numRows, int numCols)
-{
-    std::vector<std::vector<int>> filteredImage(numRows, std::vector<int>(numCols, 0));
-    std::vector<std::vector<int>> kernel{
-        {1 / 16, 1 / 8, 1 / 16},
-        {1 / 8, 1 / 4, 1 / 8},
-        {1 / 16, 1 / 8, 1 / 16}};
-    int currentVal = 0;
+// std::vector<std::vector<int>> gaussian_filter(std::vector<std::vector<int>> paddedImageVect, int numRows, int numCols)
+// {
+//     std::vector<std::vector<int>> filteredImage(numRows, std::vector<int>(numCols, 0));
+//     std::vector<std::vector<int>> kernel{
+//         {1 / 16, 1 / 8, 1 / 16},
+//         {1 / 8, 1 / 4, 1 / 8},
+//         {1 / 16, 1 / 8, 1 / 16}};
+//     int currentVal = 0;
 
-    for (int i = 0; i < numRows; i++)
-    {
-        for (int j = 0; j < numCols; j++)
-        {
-            currentVal = 0;
-            // convolution
-            for (int x = 0; x < KERNEL_SIZE; x++)
-            {
-                for (int y = 0; y < KERNEL_SIZE; y++)
-                {
-                    currentVal += paddedImageVect[i + x][j + y] * kernel[x][y];
-                }
-            }
-            filteredImage[i][j] = currentVal;
-        }
-    }
-    return filteredImage;
-}
+//     for (int i = 0; i < numRows; i++)
+//     {
+//         for (int j = 0; j < numCols; j++)
+//         {
+//             currentVal = 0;
+//             // convolution
+//             for (int x = 0; x < KERNEL_SIZE; x++)
+//             {
+//                 for (int y = 0; y < KERNEL_SIZE; y++)
+//                 {
+//                     currentVal += paddedImageVect[i + x][j + y] * kernel[x][y];
+//                 }
+//             }
+//             filteredImage[i][j] = currentVal;
+//         }
+//     }
+//     return filteredImage;
+// }
 
 int main(int argc, const char **argv)
 {
@@ -107,7 +107,7 @@ int main(int argc, const char **argv)
     delete[] flat_img;
     std::cout << "test line " << __LINE__ << "\n";
 
-    std::vector<std::vector<int>> filteredImage = gaussian_filter(paddedImageVect, numRows, numCols);
+    std::vector<std::vector<int>> filteredImage = gaussianFilter(paddedImageVect, numRows, numCols);
     // std::cout << filteredImage;
     // Mat A(img.rows, img.cols, CV_8U, filteredImage);
     // imshow("Display window", A);
