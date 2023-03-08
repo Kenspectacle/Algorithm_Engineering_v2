@@ -107,7 +107,8 @@ int main(int argc, const char **argv)
     delete[] flat_img;
     std::cout << "test line " << __LINE__ << "\n";
 
-    std::vector<std::vector<int>> filteredImage = gaussianFilter(paddedImageVect, numRows, numCols);
+    std::vector<std::vector<int>> blurredImage = gaussianFilter(paddedImageVect, numRows, numCols);
+    std::vector<std::vector<int>> filteredImage = customFilter(blurredImage, imageVect, numRows, numCols);
     // std::cout << filteredImage;
     // Mat A(img.rows, img.cols, CV_8U, filteredImage);
     // imshow("Display window", A);
