@@ -23,7 +23,11 @@ void ocv_getImgInformation(std::string imageName, int *numRows, int *numCols)
 
 void ocv_importImageToVector(std::vector<std::vector<int>> imageMatrix,
                              std::vector<std::vector<int>> paddedImageMatrix,
+<<<<<<< HEAD
                              const int numRows, const int numCols);
+=======
+                             const int *numRows, const int *numCols);
+>>>>>>> a8016c6a12931bc51b6455dc01e109f71a96cb91
 {
     // Convert from Mat object to 2D Vectors
     for (int i = 0; i < img.rows; i++)

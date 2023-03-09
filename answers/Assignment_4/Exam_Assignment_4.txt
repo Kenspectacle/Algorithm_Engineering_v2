@@ -1,0 +1,26 @@
+1. Explain how divide and conquer algorithms can be
+parallelized with tasks in OpenMP.
+
+-Each of the subsection within the divide and conquer algorithms are assigned as tasks, and the tasks are distributed through a
+scheduling algorithm to decide, which thread handles which task at a certain point of time.
+
+2. Describe some ways to speed up merge sort.
+
+3. What is the idea behind multithreaded merging?
+
+4. Do the coding warmup on slide 17.
+
+5. Read What every systems programmer should know about
+concurrency.
+https://assets.bitbashing.io/papers/concurrency-
+primer.pdf
+Discuss two things you find particularly interesting.
+
+5. a. Atomicity:
+I find it interesting that in C++, we are able to force atomicity by using std::atomic on a variable.
+This definitely enforces sequentiallity which prevents things such as race condition, acting as a barrier
+
+5. b. Read-Modify-Write:
+It is very interesting how in a parallel program, a value within a thread is read and modified.
+There are various ways to deal with it, such as doing an Exchange, Test and set, Fetch and..., Compare and swap. 
+These operations require knowledge of how the CPU handles comparison and how memory accesses of an address is used.

@@ -1,0 +1,9 @@
+1. What are extension types in the context of Python?
+
+- 
+
+2. How do extension types data fields in Cython differ
+from data fields in Python classes?
+
+3. Give a simple description of how to wrap C / C++
+code in Cython.
