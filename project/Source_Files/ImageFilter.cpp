@@ -1,4 +1,4 @@
-#include "ImageFilter.hpp"
+#include "Header_Files/ImageFilter.hpp"
 
 #define KERNEL_SIZE 3
 
@@ -30,9 +30,9 @@ std::vector<std::vector<int>> gaussianFilter(const std::vector<std::vector<int>>
     return blurredImage;
 }
 
-std::vector<std::vector<int>> customFilter(const std::vector<std::vector<int>> &blurredImage, 
-const std::vector<std::vector<int>> &imageVect,
-const int &numRows, const int &numCols)
+std::vector<std::vector<int>> customFilter(const std::vector<std::vector<int>> &blurredImage,
+                                           const std::vector<std::vector<int>> &imageVect,
+                                           const int &numRows, const int &numCols)
 {
     std::vector<std::vector<int>> filteredImage(numRows, std::vector<int>(numCols, 0));
     for (int i = 0; i < numRows; i++)
@@ -48,3 +48,15 @@ const int &numRows, const int &numCols)
     }
     return filteredImage;
 }
+
+// TURN csv to array
+// int *flat_img = new int[img.rows * img.cols];
+// int k = 0;
+// for (int i = 0; i < img.rows; i++)
+// {
+//     for (int j = 0; j < img.cols; j++)
+//     {
+//         flat_img[k] = imageVect[i][j];
+//         k++;
+//     }
+// }

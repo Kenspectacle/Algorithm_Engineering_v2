@@ -24,8 +24,8 @@ def enhance_gray_img(gray_img):
     return gray_img_copy
 
 
-input_img = 'in.jpg'
-output_img = 'out.png'
+input_img = 'Cython_Image_Enhancers/in.jpg'
+output_img = 'Cython_Image_Enhancers/out.png'
 
 img = Image.open(input_img)
 img = rgb2gray(np.array(img))
