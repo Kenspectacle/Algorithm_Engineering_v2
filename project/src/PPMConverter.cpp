@@ -39,6 +39,11 @@ imgMetaDataStruct PPMConverter::getImgMetaData()
     this->imgStream >> s_max;
     eatNextComment(); 
 
+    if (mode != "P6")
+    {
+        throw std::runtime_error("Error: " + this->imgPath + " is not in P6 format.");
+    }
+
     this->imgMetaData.width = stoi(s_width);
     this->imgMetaData.height = stoi(s_height);
     this->imgMetaData.max = stoi(s_max);
@@ -48,73 +53,45 @@ imgMetaDataStruct PPMConverter::getImgMetaData()
     return this->imgMetaData;
 }
 
-void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> imageMatrix,
-                                      std::vector<std::vector<int>> paddedImageMatrix)
+void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix,
+                                      std::vector<std::vector<int>> &paddedImageMatrix)
 {
     this->checkStream();
 
-    int sizeStream = this->imgMetaData.width * this->imgMetaData.height * 3;
+    int sizeStream = this->imgMetaData.width * this->imgMetaData.height;
     std::cout << "Stream size " << sizeStream << std::endl;
 
     char* pixelArray = new char[sizeStream];
     this->imgStream.read(pixelArray, sizeStream);
 
-    int min = 0;
-    int max = 0;
-
-    // for(int i = 0; i < this->imgMetaData.height; i++)           // loop width
-    // {
-    //     for(int j = 0; j < this->imgMetaData.width; j++)        // loop height
-    //     {
-    //         for(int k = 0; k < 3; k++)                          // loop 3 pixels
-    //         {
-    //             int idx = i * this->imgMetaData.width*3 + j*3 + k;
-    //             std::cout << idx << " ";
-    //             int value = (int)pixelArray[idx];
-
-    //             if (value > min)
-    //             {
-    //                 min = value;
-    //             }
-    //             if (value < max)
-    //             {
-    //                 max = value;
-    //             }
-    //         }    
-    //         if (j == 2)
-    //         {
-    //             break;
-    //         }
-    //     }   
-    // }
-
-    for(int i = 0; i < sizeStream; i++)
+    for(int i = 0; i < this->imgMetaData.height; i++)           // loop width
     {
-        int value = (int)pixelArray[i] + 128;
-        // std::cout << pixelArray[i] << " ";
+        for(int j = 0; j < this->imgMetaData.width; j++)        // loop height
+        {
+            int greySum = 0;
 
-        if (value > min)
-        {
-            min = value;
-        }
-        if (value < max)
-        {
-            max = value;
-        }
+            for(int k = 0; k < 3; k++)                          // loop 3 pixels
+            {
+                int idx = (i * this->imgMetaData.width*3) + (j*3) + k;
+                // signed char or something idk, that sould work though
+                greySum += (int)pixelArray[idx] + 128;
+            }    
+            int greyValue = greySum / 3;
+
+            imageMatrix[j][i] = greyValue;
+            paddedImageMatrix[j + 1][i + 1] = greyValue;
+            greySum = 0;
+        }   
     }
-    std::cout << min << " " << max << std::endl;
+}
 
-    // Convert from Mat object to 2D Vectors
-    // for (int i = 0; i < numRows; i++)
-    // {
-    //     for (int j = 0; j < numCols; j++)
-    //     {
-    //         // int extracted = img.at<uchar>(i, j);
-    //         int extracted = 1;
-    //         imageMatrix[i][j] = extracted;
-    //         paddedImageMatrix[i + 1][j + 1] = extracted;
-    //     }
-    // }
+/**
+ * Takes the meta information and transformed pixel matrix,
+ * and returns the new and improved ppm image. 
+ */
+void convertToPPM(std::vector<std::vector<int>> &imageMatrix)
+{
+    
 }
 
 /**

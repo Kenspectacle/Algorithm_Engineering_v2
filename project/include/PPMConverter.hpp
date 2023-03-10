@@ -30,8 +30,9 @@ public:
     PPMConverter(std::string imgName);
 
     imgMetaDataStruct getImgMetaData();
-    void extractPixelMatrix(std::vector<std::vector<int>> imageMatrix,
-                            std::vector<std::vector<int>> paddedImageMatrix);
+    void extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix,
+                            std::vector<std::vector<int>> &paddedImageMatrix);
+    void convertToPPM(std::vector<std::vector<int>> &imageMatrix);
 
 };
 
