@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/main.dir/ImageFilter.cpp.o"
-  "CMakeFiles/main.dir/ImageFilter.cpp.o.d"
-  "CMakeFiles/main.dir/main.cpp.o"
-  "CMakeFiles/main.dir/main.cpp.o.d"
+  "CMakeFiles/main.dir/src/ImageFilter.cpp.o"
+  "CMakeFiles/main.dir/src/ImageFilter.cpp.o.d"
+  "CMakeFiles/main.dir/src/main.cpp.o"
+  "CMakeFiles/main.dir/src/main.cpp.o.d"
   "main"
   "main.pdb"
 )

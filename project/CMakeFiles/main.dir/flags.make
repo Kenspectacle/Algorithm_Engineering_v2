@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -isystem /usr/local/include/opencv4
+CXX_INCLUDES = -I/home/kenny/01-University/Semester_6/Algorithm_Engineering/project/include -isystem /usr/local/include/opencv4
 
 CXX_FLAGS = -g
 
