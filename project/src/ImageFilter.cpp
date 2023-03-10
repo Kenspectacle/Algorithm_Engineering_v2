@@ -1,4 +1,4 @@
-#include "ImageFilter.hpp"
+#include "../include/ImageFilter.hpp"
 
 #define KERNEL_SIZE 3
 

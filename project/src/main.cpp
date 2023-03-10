@@ -1,33 +1,33 @@
-#include "PPMConverter.hpp"
-#include "ImageFilter.hpp"
+#include "../include/PPMConverter.hpp"
+#include "../include/ImageFilter.hpp"
 
 #include <iostream>
 #include <vector>
 
 // using std::vector<std::vector<int>> as Vec2i
 
-int main(int argc, const char **argv)
+int main(const int argc, const char **argv)
 {
     // 1. Step import and convert image
-    imageStruct imageInformation = getImgInformation("name");
-    int numRows = imageInformation.numRows;
-    int numCols = imageInformation.numRows;
+    PPMConverter ppmConverter("input_image_1.ppm");
 
-    std::cout << imageInformation.numRows;
+    const int numRows = ppmConverter.imgMetaData.width;
+    const int numCols = ppmConverter.imgMetaData.height;
 
+    // 2. Extract pixel matrix from image
     std::vector<std::vector<int>> imageMatrix(numRows, std::vector<int>(numCols, 0));
     std::vector<std::vector<int>> paddedImageMatrix(numRows + 2, std::vector<int>(numCols + 2, 0));
-    importImageToVector(imageMatrix, paddedImageMatrix, numRows, numCols);
+    ppmConverter.extractPixelMatrix(imageMatrix, paddedImageMatrix);
 
-    // 2. Step transformations
+    // 3. Step Filter Transformations
 
     std::vector<std::vector<int>> blurredImage = gaussianFilter(paddedImageMatrix, numRows, numCols);
 
     std::vector<std::vector<int>> filteredImage = customFilter(blurredImage, imageMatrix, numRows, numCols);
 
-    // 3. Convert image back to ppm
+    // 4. Convert pixel matrix back to ppm
 
-    // 4. Export image
+    // 5. Export image
 
     std::cout << "Job Done !" << std::endl;
 
