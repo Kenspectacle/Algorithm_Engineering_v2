@@ -14,10 +14,10 @@ using namespace cv;
 int main(const int argc, const char **argv)
 {
     // 1. Step import and convert image
-    PPMConverter ppmConverter("input_image_1.ppm");
+    // PPMConverter ppmConverter("input_image_1.ppm");
 
-    const int numRows = ppmConverter.imgMetaData.width;
-    const int numCols = ppmConverter.imgMetaData.height;
+    // const int numRows = ppmConverter.imgMetaData.width;
+    // const int numCols = ppmConverter.imgMetaData.height;
     std::cout << "MetaData extraction done!" << std::endl;
     // imageStruct imageInformation = getImgInformation("name");
     // int numRows = imageInformation.numRows;
@@ -32,17 +32,30 @@ int main(const int argc, const char **argv)
         std::cout << "Could not read the image: " << image_path << std::endl;
         return 1;
     }
-    // int numRows = img.rows;
-    // int numCols = img.cols;
+    int numRows = img.rows;
+    int numCols = img.cols;
 
     // std::cout << imageInformation.numRows;
 
     // 2. Extract pixel matrix from image
     std::vector<std::vector<int>> imageMatrix(numRows, std::vector<int>(numCols, 0));
+    std::vector<std::vector<int>> imageVect(numRows, std::vector<int>(numCols, 0));
     std::vector<std::vector<int>> paddedImageMatrix(numRows + 2, std::vector<int>(numCols + 2, 0));
+    std::vector<std::vector<int>> paddedImageVect(numRows + 2, std::vector<int>(numCols + 2, 0));
     // importImageToVector(imageMatrix, paddedImageMatrix, numRows, numCols);
+    // Convert from Mat object to 2D Array
 
-    ppmConverter.extractPixelMatrix(imageMatrix, paddedImageMatrix);
+    for (int i = 0; i < img.rows; i++)
+    {
+        for (int j = 0; j < img.cols; j++)
+        {
+            int extracted = img.at<uchar>(i, j);
+            // std::cout << extracted << std::endl;
+            imageVect[i][j] = extracted;
+            paddedImageVect[i + 1][j + 1] = extracted;
+        }
+    }
+    // ppmConverter.extractPixelMatrix(imageMatrix, paddedImageMatrix);
     std::cout << "Pixel extraction done!" << std::endl;
 
     // 3. Step Filter Transformations
