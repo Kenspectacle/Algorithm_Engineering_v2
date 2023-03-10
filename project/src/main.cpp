@@ -32,8 +32,8 @@ int main(const int argc, const char **argv)
         std::cout << "Could not read the image: " << image_path << std::endl;
         return 1;
     }
-    int numRows = img.rows;
-    int numCols = img.cols;
+    // int numRows = img.rows;
+    // int numCols = img.cols;
 
     // std::cout << imageInformation.numRows;
 
