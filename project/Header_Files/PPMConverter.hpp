@@ -1,18 +1,38 @@
 #ifndef PPMCONVERTER_H
 #define PPMCONVERTER_H
 
+#include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 
-struct imageStruct
+/**
+ * Meta data for the ppm format. 
+ */
+struct imgMetaDataStruct
 {
-    int numRows, numCols;
+    std::string mode;
+    int width, height, max;
 };
 
-imageStruct getImgInformation(std::string imageName);
+class PPMConverter
+{
+private:
+    std::string imgPath;
+    std::ifstream imgStream;
+    
+    void eatNextComment();
+    void checkStream();
 
-void importImageToVector(std::vector<std::vector<int>> imageMatrix,
-                             std::vector<std::vector<int>> paddedImageMatrix,
-                             const int numRows, const int numCols);
+public:
+    imgMetaDataStruct imgMetaData;
+
+    PPMConverter(std::string imgName);
+
+    imgMetaDataStruct getImgMetaData();
+    void extractPixelMatrix(std::vector<std::vector<int>> imageMatrix,
+                            std::vector<std::vector<int>> paddedImageMatrix);
+
+};
 
 #endif
