@@ -9,6 +9,9 @@
 
 using namespace cv;
 
+template<typename T>
+using Vec2D = std::vector<std::vector<T>>;
+
 // using std::vector<std::vector<int>> as Vec2i
 
 int main(const int argc, const char **argv)
@@ -38,10 +41,10 @@ int main(const int argc, const char **argv)
     // std::cout << imageInformation.numRows;
 
     // 2. Extract pixel matrix from image
-    std::vector<std::vector<int>> imageMatrix(numRows, std::vector<int>(numCols, 0));
-    std::vector<std::vector<int>> imageVect(numRows, std::vector<int>(numCols, 0));
-    std::vector<std::vector<int>> paddedImageMatrix(numRows + 2, std::vector<int>(numCols + 2, 0));
-    std::vector<std::vector<int>> paddedImageVect(numRows + 2, std::vector<int>(numCols + 2, 0));
+    Vec2D<int> imageMatrix(numRows, std::vector<int>(numCols, 0));
+    Vec2D<int> imageVect(numRows, std::vector<int>(numCols, 0));
+    Vec2D<int> paddedImageMatrix(numRows + 2, std::vector<int>(numCols + 2, 0));
+    Vec2D<int> paddedImageVect(numRows + 2, std::vector<int>(numCols + 2, 0));
     // importImageToVector(imageMatrix, paddedImageMatrix, numRows, numCols);
     // Convert from Mat object to 2D Array
 
