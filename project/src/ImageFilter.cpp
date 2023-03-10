@@ -6,9 +6,9 @@ std::vector<std::vector<int>> gaussianFilter(const std::vector<std::vector<int>>
 {
     std::vector<std::vector<int>> blurredImage(numRows, std::vector<int>(numCols, 0));
     std::vector<std::vector<int>> kernel{
-        {1 / 16, 1 / 8, 1 / 16},
-        {1 / 8, 1 / 4, 1 / 8},
-        {1 / 16, 1 / 8, 1 / 16}};
+        {16, 8, 16},
+        {8, 4, 8},
+        {16, 8, 16}};
     int currentVal = 0;
 
     for (int i = 0; i < numRows; i++)
@@ -21,7 +21,7 @@ std::vector<std::vector<int>> gaussianFilter(const std::vector<std::vector<int>>
             {
                 for (int y = 0; y < KERNEL_SIZE; y++)
                 {
-                    currentVal += paddedImageVect[i + x][j + y] * kernel[x][y];
+                    currentVal += paddedImageVect[i + x][j + y] / kernel[x][y];
                 }
             }
             blurredImage[i][j] = currentVal;
@@ -41,7 +41,7 @@ std::vector<std::vector<int>> customFilter(const std::vector<std::vector<int>> &
         {
             double d = imageVect[i][j] / (blurredImage[i][j] + 00000000001);
             double m = std::min(255.0, d * 255 + 00000000001);
-            double gamma = 0.5 * (m / 255.0) * m * m / 65025;
+            double gamma = 0.5 * (m / 255.0) * m * m / 65025; // gamma correction
             m = pow((m / 255.0), (1 / (gamma + 0.00000000001))) * 255.0;
             filteredImage[i][j] = m;
         }
