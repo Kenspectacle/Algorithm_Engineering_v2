@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/main.dir/src/ImageFilter.cpp.o CMakeFiles/main.dir/src/PPMConverter.cpp.o CMakeFiles/main.dir/src/JPGConverter.cpp.o CMakeFiles/main.dir/src/main.cpp.o  -o main 
