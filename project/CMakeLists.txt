@@ -5,6 +5,7 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 add_executable( main 
     src/ImageFilter.cpp 
+    src/CSVWriter.cpp
     src/main.cpp )
 target_include_directories(main PRIVATE include/)
 # add_executable( ImageEnhancer ImageEnhancer.cpp )

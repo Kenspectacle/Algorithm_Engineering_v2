@@ -1,5 +1,7 @@
 #include "PPMConverter.hpp"
 #include "ImageFilter.hpp"
+#include "CSVWriter.hpp"
+     
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
@@ -42,9 +44,9 @@ int main(const int argc, const char **argv)
 
     // 2. Extract pixel matrix from image
     Vec2D<int> imageMatrix(numRows, std::vector<int>(numCols, 0));
-    Vec2D<int> imageVect(numRows, std::vector<int>(numCols, 0));
+    std::vector<std::vector<int>> imageVect(numRows, std::vector<int>(numCols, 0));
     Vec2D<int> paddedImageMatrix(numRows + 2, std::vector<int>(numCols + 2, 0));
-    Vec2D<int> paddedImageVect(numRows + 2, std::vector<int>(numCols + 2, 0));
+    std::vector<std::vector<int>> paddedImageVect(numRows + 2, std::vector<int>(numCols + 2, 0));
     // importImageToVector(imageMatrix, paddedImageMatrix, numRows, numCols);
     // Convert from Mat object to 2D Array
 
@@ -63,16 +65,21 @@ int main(const int argc, const char **argv)
 
     // 3. Step Filter Transformations
 
-    std::vector<std::vector<int>> blurredImage = gaussianFilter(paddedImageMatrix, numRows, numCols);
+    // std::vector<std::vector<int>> blurredImage = gaussianFilter(paddedImageMatrix, numRows, numCols);
+    std::vector<std::vector<int>> blurredImage = gaussianFilter(paddedImageVect, numRows, numCols);
     std::cout << "Applied Gaussian Filter!" << std::endl;
 
-    std::vector<std::vector<int>> filteredImage = customFilter(blurredImage, imageMatrix, numRows, numCols);
+    // std::vector<std::vector<int>> filteredImage = customFilter(blurredImage, imageMatrix, numRows, numCols);
+    std::vector<std::vector<int>> filteredImage = customFilter(blurredImage, imageVect, numRows, numCols);
     std::cout << "Applied Custom Filter!" << std::endl;
 
     // 4. Convert pixel matrix back to ppm
 
     // 5. Export image
+    std::cout << "img cols:" << numCols << std::endl;
+    std::cout << "img rows:" << numRows << std::endl;
 
+    exportCSV(filteredImage, numRows, numCols);
     std::cout << "Job Done !" << std::endl;
 
     return 0;
