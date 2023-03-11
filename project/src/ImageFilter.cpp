@@ -1,4 +1,4 @@
-#include "../include/ImageFilter.hpp"
+#include "ImageFilter.hpp"
 
 #define KERNEL_SIZE 3
 
@@ -39,9 +39,9 @@ std::vector<std::vector<int>> customFilter(const std::vector<std::vector<int>> &
     {
         for (int j = 0; j < numCols; j++)
         {
-            double d = imageVect[i][j] / (blurredImage[i][j] + 00000000001);
-            double m = std::min(255.0, d * 255 + 00000000001);
-            double gamma = 0.5 * (m / 255.0) * m * m / 65025; // gamma correction
+            double d = imageVect[i][j] / (blurredImage[i][j] + 0.0000000001);
+            double m = std::min(255.0, d * 255 + 0.0000000001);
+            double gamma = 0.001 * (m / 255.0) * m * m / 65025; // gamma correction
             m = pow((m / 255.0), (1 / (gamma + 0.00000000001))) * 255.0;
             filteredImage[i][j] = m;
         }

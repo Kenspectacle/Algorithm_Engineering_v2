@@ -15,8 +15,8 @@ int main(const int argc, const char **argv)
 
     /* 1.1 For ppm files */
     PPMConverter ppmConverter("text-from-book-big.ppm");
-    const int numRows = ppmConverter.imgMetaData.width;
-    const int numCols = ppmConverter.imgMetaData.height;
+    const int numRows = ppmConverter.imgMetaData.height;
+    const int numCols = ppmConverter.imgMetaData.width;
 
     /* 1.2 For jpg files */
     // jpgMetaDataStruct jpgMetaData = getJpgMetaData("input_image_1.jpg");
@@ -47,11 +47,7 @@ int main(const int argc, const char **argv)
 
     /* 4. Convert pixel matrix back to ppm and Export */
     ppmConverter.convertToPPM(filteredImage);
-
-    std::cout << "img cols:" << numCols << std::endl;
-    std::cout << "img rows:" << numRows << std::endl;
-
-    // exportCSV(filteredImage);
+    exportCSV(filteredImage);
 
     std::cout << "Job Done !" << std::endl;
 

@@ -11,7 +11,6 @@
  * 2. turn img to grayscale matrix
  * 3. stitch vector back to ppm
  */
-
 PPMConverter::PPMConverter(std::string imgName)
 {
     this->imgPath = "static/" + imgName;
@@ -44,7 +43,8 @@ imgMetaDataStruct PPMConverter::getImgMetaData()
         throw std::runtime_error("Error: " + this->imgPath + " is not in P6 format.");
     }
 
-    this->imgMetaData.width = stoi(s_width);
+    // Width times 3 for the r, g, b values per pixel
+    this->imgMetaData.width = stoi(s_width) * 3;
     this->imgMetaData.height = stoi(s_height);
     this->imgMetaData.max = stoi(s_max);
 
@@ -64,29 +64,41 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
 {
     this->checkStream();
 
-    // PPM width * PPM height * 3 for each pixel
-    int sizeStream = this->imgMetaData.width * this->imgMetaData.height * 3;
-
+    int sizeStream = this->imgMetaData.width * this->imgMetaData.height;
     char *pixelArray = new char[sizeStream];
+
     this->imgStream.read(pixelArray, sizeStream);
 
-    for (int i = 0; i < this->imgMetaData.height; i++) // loop width
+    for (int i = 0; i < this->imgMetaData.height; i++)
     {
-        for (int j = 0; j < this->imgMetaData.width; j++) // loop height
+        // Jump over all 3 pixels
+        for (int j = 0; j < this->imgMetaData.width; j += 3)
         {
-            int greySum = 0;
+            int *rgb = new int[3];
 
-            for (int k = 0; k < 3; k++) // loop 3 pixels
+            // And do the pixels here
+            for (int k = 0; k < 3; k++)
             {
-                int idx = (i * this->imgMetaData.width * 3) + (j * 3) + k;
+                int idx = (i * this->imgMetaData.width) + j + k;
                 unsigned char pixelValue = (unsigned char)pixelArray[idx];
-                greySum += (int)pixelValue;
+                rgb[k] = (int)pixelValue;
             }
-            int greyValue = greySum / 3;
 
-            imageMatrix[j][i] = greyValue;
-            paddedImageMatrix[j + 1][i + 1] = greyValue;
-            greySum = 0;
+            int oldRed = rgb[0];
+            int oldGre = rgb[1];
+            int oldBlu = rgb[2];
+
+            // all the same fix
+            rgb[0] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
+            rgb[1] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
+            rgb[2] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
+
+            for (int k = 0; k < 3; k++)
+            {
+                imageMatrix[i][j + k] = rgb[k];
+                paddedImageMatrix[i + 1][j + k + 1] = rgb[k];
+            }
+            free(rgb);
         }
     }
 }
@@ -106,21 +118,23 @@ void PPMConverter::convertToPPM(std::vector<std::vector<int>> &imageMatrix)
     }
 
     imgStreamOut << this->imgMetaData.mode << "\n";
-    imgStreamOut << this->imgMetaData.width << "\n";
+    // Dont forget to divide by 3 again for the pixels.
+    imgStreamOut << this->imgMetaData.width / 3 << "\n";
     imgStreamOut << this->imgMetaData.height << "\n";
     imgStreamOut << this->imgMetaData.max << "\n";
 
     for (int i = 0; i < this->imgMetaData.height; i++) // loop width
     {
-        for (int j = 0; j < this->imgMetaData.width; j++) // loop height
+        for (int j = 0; j < this->imgMetaData.width; j += 3) // loop height
         {
             for (int k = 0; k < 3; k++) // loop 3 pixels
             {
-                imgStreamOut << (unsigned char)imageMatrix[j][i];
+                imgStreamOut << (unsigned char)imageMatrix[i][j + k];
             }
         }
     }
 
+    imgStreamOut.flush();
     imgStreamOut.close();
 }
 
