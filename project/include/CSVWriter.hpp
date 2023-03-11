@@ -6,6 +6,6 @@
 #include <iostream>
 
 
-void extern exportCSV(std::vector<std::vector<int>> filteredImage, int numCols, int numRows);
+void extern exportCSV(const std::vector<std::vector<int>> &filteredImage);
 
 #endif
