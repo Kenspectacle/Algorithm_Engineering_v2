@@ -1,4 +1,4 @@
-#include "../include/PPMConverter.hpp"
+#include "PPMConverter.hpp"
 
 #include <iostream>
 #include <fstream>

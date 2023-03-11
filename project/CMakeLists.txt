@@ -3,7 +3,9 @@ project( ImageEnhancing )
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-add_executable( main 
+add_executable( main
+    src/PPMConverter.cpp 
+    src/JPGConverter.cpp
     src/ImageFilter.cpp 
     src/CSVWriter.cpp
     src/main.cpp )
