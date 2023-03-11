@@ -5,7 +5,6 @@
 #include <string>
 #include <stdexcept>
 
-
 /**
  * Extracts and saves header information from ppm image.
  * Expects the ppm file to be in P6 and therefore binary format,
@@ -25,15 +24,15 @@ jpgMetaDataStruct getJpgMetaData(std::string imageName)
 
     jpgMetaDataStruct jpgMetaData;
 
-    jpgMetaData.numRows = img.rows;
-    jpgMetaData.numCols = img.cols;
+    jpgMetaData.numRows = 10; // = img.rows;
+    jpgMetaData.numCols = 10; // = img.cols;
 
     return jpgMetaData;
 }
 
 void extractJpgPixelMatrix(const int numRows, const int numCols,
-                    std::vector<std::vector<int>> &imageMatrix,
-                    std::vector<std::vector<int>> &paddedImageMatrix)
+                           std::vector<std::vector<int>> &imageMatrix,
+                           std::vector<std::vector<int>> &paddedImageMatrix)
 {
     for (int i = 0; i < numRows; i++)
     {
@@ -45,4 +44,3 @@ void extractJpgPixelMatrix(const int numRows, const int numCols,
         }
     }
 }
-
