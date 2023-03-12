@@ -12,15 +12,15 @@
  */
 jpgMetaDataStruct getJpgMetaData(std::string imageName)
 {
-    std::string image_path = samples::findFile("static/" + imageName);
+    // std::string image_path = samples::findFile("static/" + imageName);
 
-    Mat img = imread(image_path, IMREAD_GRAYSCALE);
+    // Mat img = imread(image_path, IMREAD_GRAYSCALE);
 
-    if (img.empty())
-    {
-        std::cout << "Could not read the image: " << image_path << std::endl;
-        return 1;
-    }
+    // if (img.empty())
+    // {
+    //     std::cout << "Could not read the image: " << image_path << std::endl;
+    //     return 1;
+    // }
 
     jpgMetaDataStruct jpgMetaData;
 
@@ -34,13 +34,13 @@ void extractJpgPixelMatrix(const int numRows, const int numCols,
                            std::vector<std::vector<int>> &imageMatrix,
                            std::vector<std::vector<int>> &paddedImageMatrix)
 {
-    for (int i = 0; i < numRows; i++)
-    {
-        for (int j = 0; j < numCols; j++)
-        {
-            int extracted = img.at<uchar>(i, j);
-            imageMatrix[i][j] = extracted;
-            paddedImageMatrix[i + 1][j + 1] = extracted;
-        }
-    }
+    // for (int i = 0; i < numRows; i++)
+    // {
+    //     for (int j = 0; j < numCols; j++)
+    //     {
+    //         int extracted = img.at<uchar>(i, j);
+    //         imageMatrix[i][j] = extracted;
+    //         paddedImageMatrix[i + 1][j + 1] = extracted;
+    //     }
+    // }
 }
