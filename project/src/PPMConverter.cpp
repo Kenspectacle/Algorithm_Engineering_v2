@@ -88,7 +88,7 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
             int oldGre = rgb[1];
             int oldBlu = rgb[2];
 
-            // all the same fix
+            // ToDo all the same fix
             rgb[0] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
             rgb[1] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
             rgb[2] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
