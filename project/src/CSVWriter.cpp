@@ -3,7 +3,7 @@
 void exportCSV(const std::vector<std::vector<int>> &filteredImage)
 {   
     std::ofstream myfile;
-    myfile.open("FilteredImage.csv");
+    myfile.open("BlurredImage.csv");
     for (int i = 0; i < filteredImage.size(); i++) {
         myfile << "\n";
         for (int j = 0; j < filteredImage[0].size(); j++) {

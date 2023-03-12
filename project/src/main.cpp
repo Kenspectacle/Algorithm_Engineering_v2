@@ -51,8 +51,7 @@ int main(const int argc, const char **argv)
     std::cout << "img cols:" << numCols << std::endl;
     std::cout << "img rows:" << numRows << std::endl;
 
-    // exportCSV(filteredImage);
-
+    exportCSV(blurredImage);
     std::cout << "Job Done !" << std::endl;
 
     return 0;
