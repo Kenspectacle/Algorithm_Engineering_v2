@@ -1,4 +1,5 @@
 #include "ImageFilter.hpp"
+#include <algorithm>
 
 /**
  * @brief ToDo at Kenny.
@@ -8,7 +9,8 @@
  * @param numCols
  * @return std::vector<std::vector<int>>
  */
-std::vector<std::vector<int>> gaussianFilter(const std::vector<std::vector<int>> &paddedImageVect, const int &numRows, const int &numCols)
+std::vector<std::vector<int>> gaussianFilter(const std::vector<std::vector<int>> &paddedImageVect,
+                                             const int numRows, const int numCols)
 {
     std::vector<std::vector<int>> blurredImage(numRows, std::vector<int>(numCols, 0));
     std::vector<std::vector<int>> kernel{
@@ -46,7 +48,38 @@ std::vector<std::vector<int>> gaussianFilter(const std::vector<std::vector<int>>
  */
 std::vector<std::vector<int>> customFilter(const std::vector<std::vector<int>> &blurredImage,
                                            const std::vector<std::vector<int>> &imageVect,
-                                           const int &numRows, const int &numCols)
+                                           const int numRows, const int numCols)
+{
+    const int kernelSize = 3;
+    const double kernelValues[3][3] = {{-1, -1, -1}, {-1, 9, -1}, {-1, -1, -1}};
+    const int maxPixelValue = 255;
+    const double contrast = 1.6;
+
+    std::vector<std::vector<int>> filteredImage(numRows, std::vector<int>(numCols, 0));
+    for (int i = 1; i < numRows - 1; i++)
+    {
+        for (int j = 1; j < numCols - 1; j++)
+        {
+            int pixelValue = 0;
+            for (int ki = 0; ki < kernelSize; ki++)
+            {
+                for (int kj = 0; kj < kernelSize; kj++)
+                {
+                    int row = i + ki - 1;
+                    int col = j + kj - 1;
+                    pixelValue += blurredImage[row][col] * kernelValues[ki][kj];
+                }
+            }
+            int contrastAdjusted = (int)(contrast * pixelValue);
+            filteredImage[i][j] = std::max(0, std::min(maxPixelValue, contrastAdjusted));
+        }
+    }
+    return filteredImage;
+}
+
+std::vector<std::vector<int>> customFilterExtreme(const std::vector<std::vector<int>> &blurredImage,
+                                                  const std::vector<std::vector<int>> &imageVect,
+                                                  const int numRows, const int numCols)
 {
     std::vector<std::vector<int>> filteredImage(numRows, std::vector<int>(numCols, 0));
     for (int i = 0; i < numRows; i++)
@@ -55,10 +88,63 @@ std::vector<std::vector<int>> customFilter(const std::vector<std::vector<int>> &
         {
             double d = imageVect[i][j] / (blurredImage[i][j] + 0.0000000001);
             double m = std::min(255.0, d * 255 + 0.0000000001);
-            double gamma = 0.1 * (m / 255.0) * m * m / 65025;
+            double gamma = 0.05 * (m / 255.0) * m * m / 65025;
             m = pow((m / 255.0), (1 / (gamma + 0.00000000001))) * 255.0;
             filteredImage[i][j] = m;
         }
     }
     return filteredImage;
+}
+
+std::vector<std::vector<int>> medianFilter(const std::vector<std::vector<int>> &blurredImage,
+                                           const std::vector<std::vector<int>> &imageVect,
+                                           const int numRows, const int numCols)
+{
+    int filterSize = 3;
+    int filterOffset = (filterSize - 1) / 2;
+    std::vector<std::vector<int>> result(numRows, std::vector<int>(numCols, 0));
+    std::vector<int> neighborValues(filterSize * filterSize, 0);
+
+    for (int row = 0; row < numRows; row++)
+    {
+        for (int col = 0; col < numCols; col++)
+        {
+            int neighborCount = 0;
+            int sum = 0;
+
+            for (int filterRow = -filterOffset; filterRow <= filterOffset; filterRow++)
+            {
+                int neighborRow = row + filterRow;
+
+                if (neighborRow >= 0 && neighborRow < numRows)
+                {
+                    for (int filterCol = -filterOffset; filterCol <= filterOffset; filterCol++)
+                    {
+                        int neighborCol = col + filterCol;
+
+                        if (neighborCol >= 0 && neighborCol < numCols)
+                        {
+                            neighborValues[neighborCount++] = blurredImage[neighborRow][neighborCol];
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < filterSize * filterSize; i++)
+            {
+                for (int j = i + 1; j < filterSize * filterSize; j++)
+                {
+                    if (neighborValues[i] > neighborValues[j])
+                    {
+                        std::swap(neighborValues[i], neighborValues[j]);
+                    }
+                }
+            }
+
+            int median = neighborValues[(neighborCount - 1) / 2];
+            result[row][col] = median;
+        }
+    }
+
+    return result;
 }

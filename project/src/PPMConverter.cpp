@@ -146,7 +146,7 @@ void PPMConverter::convertToPPM(const std::vector<std::vector<int>> &imageMatrix
 
 /**
  * @brief PPM allows for comments starting with # in the header at any place.
- * BUG: 2 or more comments at once are not found.
+ * BUG: 2 or more comments at once are not eaten.
  */
 void PPMConverter::eatNextComment()
 {

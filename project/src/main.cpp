@@ -54,7 +54,15 @@ int main(const int argc, const char **argv)
     std::cout << benchmark.task[2] << " time elapsed: " << benchmark.end[2] - benchmark.start[2] << std::endl;
 
     benchmark.start.push_back(omp_get_wtime());
-    Vec2D<int> filteredImage = customFilter(blurredImage, imageVect, numRows, numCols);
+    Vec2D<int> medianedImage = medianFilter(blurredImage, imageVect, numRows, numCols);
+    benchmark.end.push_back(omp_get_wtime());
+    benchmark.task.push_back("Applied Median Filter");
+    std::cout << benchmark.task[3] << std::endl;
+    std::cout << benchmark.task[3] << " time elapsed: " << benchmark.end[3] - benchmark.start[3] << std::endl;
+
+
+    benchmark.start.push_back(omp_get_wtime());
+    Vec2D<int> filteredImage = customFilter(medianedImage, imageVect, numRows, numCols);
     benchmark.end.push_back(omp_get_wtime());
     benchmark.task.push_back("Applied Custom Filter");
     std::cout << benchmark.task[3] << std::endl;
