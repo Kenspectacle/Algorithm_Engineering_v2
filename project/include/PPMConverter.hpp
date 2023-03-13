@@ -23,6 +23,7 @@ private:
 
     void eatNextComment();
     void checkStream();
+    bool endsWith(std::string const &str, std::string const &suffix);
 
 public:
     imgMetaDataStruct imgMetaData;

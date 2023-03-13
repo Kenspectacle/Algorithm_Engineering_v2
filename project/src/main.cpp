@@ -11,17 +11,12 @@ using Vec2D = std::vector<std::vector<T>>;
 
 int main(const int argc, const char **argv)
 {
-    /* 1. Step import and convert image */
+    /* 0. Parse arguments ToDo */
 
-    /* 1.1 For ppm files */
+    /* 1. Step import and convert image */
     PPMConverter ppmConverter("text-from-book-big.ppm");
     const int numRows = ppmConverter.imgMetaData.height;
     const int numCols = ppmConverter.imgMetaData.width;
-
-    /* 1.2 For jpg files */
-    // jpgMetaDataStruct jpgMetaData = getJpgMetaData("input_image_1.jpg");
-    // const int numRows = jpgMetaData.numRows;
-    // const int numCols = jpgMetaData.numCols;
 
     std::cout << "MetaData extraction done!" << std::endl;
 
@@ -31,9 +26,6 @@ int main(const int argc, const char **argv)
 
     /* 2.1 For ppm files */
     ppmConverter.extractPixelMatrix(imageVect, paddedImageVect);
-
-    /* 2.2 For jpg files */
-    // extractJpgPixelMatrix(numRows, numCols, imageVect, paddedImageVect);
 
     std::cout << "Pixel extraction done!" << std::endl;
 
@@ -47,10 +39,6 @@ int main(const int argc, const char **argv)
 
     /* 4. Convert pixel matrix back to ppm and Export */
     ppmConverter.convertToPPM(filteredImage);
-
-    std::cout << "img cols:" << numCols << std::endl;
-    std::cout << "img rows:" << numRows << std::endl;
-
     // exportCSV(filteredImage);
 
     std::cout << "Job Done !" << std::endl;

@@ -5,25 +5,34 @@
 #include <string>
 #include <stdexcept>
 #include <omp.h>
-#include <chrono>
 
 /**
- * ToDo
- * 1. get header info
- * 2. turn img to grayscale matrix
- * 3. stitch vector back to ppm
+ * @brief Importer and Exporter for .ppm image files.
+ * Extracts the meta data from a file given to the constructor and stores it.
+ * Extracts the pixel using (@extractPixelMatrix(...)) for further processing
+ * and stitches a processed matrix back together with the meta data using (@convertToPPM).
+ *
+ * @param imgName Name of the image with extension .ppm
  */
 PPMConverter::PPMConverter(std::string imgName)
 {
+    if (!this->endsWith(imgName, ".ppm"))
+    {
+        throw std::runtime_error("Error: " + imgName + " is not a .ppm file.");
+    }
+
     this->imgPath = "static/" + imgName;
     this->imgStream.open(this->imgPath, std::ios::in | std::ios::binary);
     this->getImgMetaData();
 }
 
 /**
- * Extracts and saves header information from ppm image.
+ * @brief Extracts and saves header information from a .ppm image.
  * Expects the ppm file to be in P6 and therefore binary format,
- * throws exception if not given.
+ * throws exception if not in this format. Width is multiplied by 3
+ * for all 3 values of a pixel.
+ *
+ * @return imgMetaDataStruct struct with the image meta data
  */
 imgMetaDataStruct PPMConverter::getImgMetaData()
 {
@@ -56,10 +65,13 @@ imgMetaDataStruct PPMConverter::getImgMetaData()
 }
 
 /**
- * Extracts the pixels from the .ppm bytestream. ifstream doesnt accept unsigned chars,
+ * @brief Extracts the pixels from the .ppm bytestream. @(ifstream) doesnt accept unsigned chars,
  * as given in the image. So we have to use an unsigned char buffer and cast them back
  * to signed chars.
- * All 3 values of one pixeel (r, g, b) are summed and devided by 3 for one gray value.
+ * All 3 values per pixel (r, g, b) are set to the same grey value.
+ *
+ * @param imageMatrix for the values to be stored in
+ * @param paddedImageMatrix the same matrix with padding
  */
 void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix,
                                       std::vector<std::vector<int>> &paddedImageMatrix)
@@ -68,52 +80,38 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
 
     int sizeStream = this->imgMetaData.width * this->imgMetaData.height;
     char *pixelArray = new char[sizeStream];
-
     this->imgStream.read(pixelArray, sizeStream);
 
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-
-// #pragma omp parallel for collapse(2)
     for (int i = 0; i < this->imgMetaData.height; i++)
     {
-        // Jump over all 3 pixels
-        for (int j = 0; j < this->imgMetaData.width; j += 3)
+        for (int j = 0; j < this->imgMetaData.width; j += 3) // Jump over 3 values of one pixel
         {
-            int *rgb = new int[3];
+            int rgb[3];
+            int idx = (i * this->imgMetaData.width) + j;
 
-            // And do the pixels here
-            for (int k = 0; k < 3; k++)
+            for (int k = 0; k < 3; k++) // Calculate the greyValue using r, g and b of one pixel
             {
-                int idx = (i * this->imgMetaData.width) + j + k;
-                unsigned char pixelValue = (unsigned char)pixelArray[idx];
+                unsigned char pixelValue = (unsigned char)pixelArray[idx + k];
                 rgb[k] = (int)pixelValue;
             }
 
-            int oldRed = rgb[0];
-            int oldGre = rgb[1];
-            int oldBlu = rgb[2];
-
-            // ToDo all the same fix
-            rgb[0] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
-            rgb[1] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
-            rgb[2] = (oldRed * 0.299) + (oldGre * 0.587) + (oldBlu * 0.114);
+            int greyValue = (rgb[0] * 0.299) + (rgb[1] * 0.587) + (rgb[2] * 0.114);
 
             for (int k = 0; k < 3; k++)
             {
-                imageMatrix[i][j + k] = rgb[k];
-                paddedImageMatrix[i + 1][j + k + 1] = rgb[k];
+                imageMatrix[i][j + k] = greyValue;
+                paddedImageMatrix[i + 1][j + k + 1] = greyValue;
             }
-            free(rgb);
         }
     }
-
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << "[µs]" << std::endl;
+    delete[] pixelArray;
 }
 
 /**
- * Takes the meta information and transformed pixel matrix,
+ * @brief Takes the meta data and transformed pixel matrix
  * and returns the new and improved ppm image.
+ *
+ * @param imageMatrix
  */
 void PPMConverter::convertToPPM(std::vector<std::vector<int>> &imageMatrix)
 {
@@ -131,11 +129,11 @@ void PPMConverter::convertToPPM(std::vector<std::vector<int>> &imageMatrix)
     imgStreamOut << this->imgMetaData.height << "\n";
     imgStreamOut << this->imgMetaData.max << "\n";
 
-    for (int i = 0; i < this->imgMetaData.height; i++) // loop width
+    for (int i = 0; i < this->imgMetaData.height; i++)
     {
-        for (int j = 0; j < this->imgMetaData.width; j += 3) // loop height
+        for (int j = 0; j < this->imgMetaData.width; j += 3)
         {
-            for (int k = 0; k < 3; k++) // loop 3 pixels
+            for (int k = 0; k < 3; k++)
             {
                 imgStreamOut << (unsigned char)imageMatrix[i][j + k];
             }
@@ -147,9 +145,8 @@ void PPMConverter::convertToPPM(std::vector<std::vector<int>> &imageMatrix)
 }
 
 /**
- * PPM allows for comments starting with # in the header at any place.
- * Todo:
- * - Bug: Multiline comments are not removed
+ * @brief PPM allows for comments starting with # in the header at any place.
+ * BUG: 2 or more comments at once are not found.
  */
 void PPMConverter::eatNextComment()
 {
@@ -171,4 +168,13 @@ void PPMConverter::checkStream()
     {
         throw std::runtime_error("Error: " + this->imgPath + " could not be opened.");
     }
+}
+
+bool PPMConverter::endsWith(std::string const &str, std::string const &suffix)
+{
+    if (str.length() < suffix.length())
+    {
+        return false;
+    }
+    return std::equal(suffix.rbegin(), suffix.rend(), str.rbegin());
 }
