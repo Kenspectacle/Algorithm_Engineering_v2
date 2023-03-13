@@ -3,6 +3,7 @@ project( ImageEnhancing )
 find_package(OpenMP REQUIRED)
 
 add_executable( main
+    src/Benchmark.cpp 
     src/PPMConverter.cpp 
     src/JPGConverter.cpp
     src/ImageFilter.cpp 

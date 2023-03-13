@@ -12,6 +12,9 @@ By Kenny Gozali and Walter Ehrenberger, as a submission for the course algorithm
 ## Options
 
 * $ ./main -path -parameters_filters ...
+* -e -extremeMode
+* -n -num_threads
+* -h --help optoins
 
 ## Requirements
 
