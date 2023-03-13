@@ -4,6 +4,8 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
+#include <omp.h>
+#include <chrono>
 
 /**
  * ToDo
@@ -69,6 +71,9 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
 
     this->imgStream.read(pixelArray, sizeStream);
 
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
+// #pragma omp parallel for collapse(2)
     for (int i = 0; i < this->imgMetaData.height; i++)
     {
         // Jump over all 3 pixels
@@ -101,6 +106,9 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
             free(rgb);
         }
     }
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << "[µs]" << std::endl;
 }
 
 /**
