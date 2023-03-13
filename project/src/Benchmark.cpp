@@ -35,3 +35,18 @@ void Benchmark::stopBenchmark(std::string name)
                      this->benchmarkStruct.start[this->structIdx++]
               << std::endl;
 }
+
+void Benchmark::exportCSV()
+{
+    std::ofstream myfile;
+    myfile.open("Benchmark_Result.csv");
+    myfile << "Task,Time Elapsed";
+    myfile << "\n";
+    for (int i = 0; i < this->structIdx; i++)
+    {
+        myfile << this->benchmarkStruct.task[i];
+        myfile << ",";
+        myfile << this->benchmarkStruct.end[i] - this->benchmarkStruct.start[i];
+        myfile << "\n";
+    }
+}

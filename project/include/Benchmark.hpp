@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
 
 struct BenchmarkStruct
 {
@@ -24,6 +25,7 @@ public:
     void finishBenchmark();
     void startBenchmark();
     void stopBenchmark(std::string name);
+    void exportCSV();
 };
 
 #endif

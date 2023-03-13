@@ -55,5 +55,9 @@ int main(const int argc, const char **argv)
     benchmark.finishBenchmark();
     std::cout << "Job Done !" << std::endl;
 
+    benchmark.exportCSV();
+    std::cout << "Export benchmark to CSV done\n";
+
+
     return 0;
 }
