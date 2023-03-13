@@ -18,6 +18,7 @@ struct imgMetaDataStruct
 class PPMConverter
 {
 private:
+    std::string imgName;
     std::string imgPath;
     std::ifstream imgStream;
 

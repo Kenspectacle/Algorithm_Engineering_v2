@@ -25,7 +25,7 @@ public:
     void finishBenchmark();
     void startBenchmark();
     void stopBenchmark(std::string name);
-    void exportCSV();
+    void exportCSV(int numThreads);
 };
 
 #endif

@@ -21,6 +21,7 @@ PPMConverter::PPMConverter(const std::string imgName)
         throw std::runtime_error("Error: " + imgName + " is not a .ppm file.");
     }
 
+    this->imgName = imgName;
     this->imgPath = "static/" + imgName;
     this->imgStream.open(this->imgPath, std::ios::in | std::ios::binary);
     this->getImgMetaData();
@@ -38,7 +39,7 @@ imgMetaDataStruct PPMConverter::getImgMetaData()
 {
     this->checkStream();
 
-    std::string mode, s_width, s_height, s_max;
+    std::string s_width, s_height, s_max;
 
     this->imgStream >> this->imgMetaData.mode;
     eatNextComment();
@@ -59,7 +60,7 @@ imgMetaDataStruct PPMConverter::getImgMetaData()
     this->imgMetaData.height = stoi(s_height);
     this->imgMetaData.max = stoi(s_max);
 
-    std::cout << "Header info: " << mode << " " << s_width << " " << s_height << " " << s_max << std::endl;
+    std::cout << "Header info: " << this->imgMetaData.mode << " " << s_width << " " << s_height << " " << s_max << std::endl;
 
     return this->imgMetaData;
 }
@@ -82,13 +83,14 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
     char *pixelArray = new char[sizeStream];
     this->imgStream.read(pixelArray, sizeStream);
 
+#pragma omp parallel for collapse(2)
     for (int i = 0; i < this->imgMetaData.height; i++)
     {
         for (int j = 0; j < this->imgMetaData.width; j += 3) // Jump over 3 values of one pixel
         {
             int rgb[3];
             int idx = (i * this->imgMetaData.width) + j;
-
+#pragma omp simd
             for (int k = 0; k < 3; k++) // Calculate the greyValue using r, g and b of one pixel
             {
                 unsigned char pixelValue = (unsigned char)pixelArray[idx + k];
@@ -96,7 +98,7 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
             }
 
             int greyValue = (rgb[0] * 0.299) + (rgb[1] * 0.587) + (rgb[2] * 0.114);
-
+#pragma omp simd
             for (int k = 0; k < 3; k++)
             {
                 imageMatrix[i][j + k] = greyValue;
@@ -111,11 +113,14 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
  * @brief Takes the meta data and transformed pixel matrix
  * and returns the new and improved ppm image.
  *
+ * Hard to optimize because we must write serialized to the imgStreamOut,
+ * so we dont do that here.
+ *
  * @param imageMatrix
  */
 void PPMConverter::convertToPPM(const std::vector<std::vector<int>> &imageMatrix)
 {
-    std::string imgPath = "static/TEST_FILE.ppm";
+    std::string imgPath = "static/enhanced_" + this->imgName;
     std::ofstream imgStreamOut(imgPath, std::ios::out | std::ios::trunc | std::ios::binary);
 
     if (!imgStreamOut.is_open() || imgStreamOut.fail())
