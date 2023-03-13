@@ -14,7 +14,7 @@
  *
  * @param imgName Name of the image with extension .ppm
  */
-PPMConverter::PPMConverter(std::string imgName)
+PPMConverter::PPMConverter(const std::string imgName)
 {
     if (!this->endsWith(imgName, ".ppm"))
     {
@@ -113,7 +113,7 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
  *
  * @param imageMatrix
  */
-void PPMConverter::convertToPPM(std::vector<std::vector<int>> &imageMatrix)
+void PPMConverter::convertToPPM(const std::vector<std::vector<int>> &imageMatrix)
 {
     std::string imgPath = "static/TEST_FILE.ppm";
     std::ofstream imgStreamOut(imgPath, std::ios::out | std::ios::trunc | std::ios::binary);

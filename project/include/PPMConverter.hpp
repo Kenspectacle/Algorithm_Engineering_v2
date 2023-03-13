@@ -7,7 +7,7 @@
 #include <vector>
 
 /**
- * Meta data for the ppm format.
+ * Meta data struct for the ppm format.
  */
 struct imgMetaDataStruct
 {
@@ -28,12 +28,12 @@ private:
 public:
     imgMetaDataStruct imgMetaData;
 
-    PPMConverter(std::string imgName);
+    PPMConverter(const std::string imgName);
 
     imgMetaDataStruct getImgMetaData();
     void extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix,
                             std::vector<std::vector<int>> &paddedImageMatrix);
-    void convertToPPM(std::vector<std::vector<int>> &imageMatrix);
+    void convertToPPM(const std::vector<std::vector<int>> &imageMatrix);
 };
 
 #endif

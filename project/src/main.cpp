@@ -31,7 +31,7 @@ int main(const int argc, const char **argv)
 
     /* 3. Step Filter Transformations */
 
-    Vec2D<int> blurredImage = gaussianFilter(paddedImageVect, numRows, numCols); //, 0.1);
+    Vec2D<int> blurredImage = gaussianFilter(paddedImageVect, numRows, numCols);
     std::cout << "Applied Gaussian Filter!" << std::endl;
 
     Vec2D<int> filteredImage = customFilter(blurredImage, imageVect, numRows, numCols);

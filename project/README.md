@@ -15,4 +15,5 @@ By Kenny Gozali and Walter Ehrenberger, as a submission for the course algorithm
 
 ## Requirements
 
-* gpp compiler with version > x ?
+* gpp compiler with version > 9.6 ?
+* cmake
