@@ -1,9 +1,20 @@
 1. What are extension types in the context of Python?
 
-- 
+- There are two kind of extension types that are spoken of in the context of Python
+
+1. Cython class, defined with cdef class or @cclass
+2. Python type that is implemented as a native C struct (including built in types, such as int or dict)
 
 2. How do extension types data fields in Cython differ
 from data fields in Python classes?
 
+- In Cython, you can directly explicitly declare the typing. This allows the determination of the type to be done 
+during compilation, which in turn boost the performance during runtime greatly.
+
 3. Give a simple description of how to wrap C / C++
 code in Cython.
+
+- It is very possible to rewrite an external C / C++ code in a Python-like interface. The similarity in syntax
+in Cython makes it easier to perform the wrapping. Use cdef extern from "[headername].h" to wrap the header, 
+and then reference it as a pointer to a Cython class, effectively accessing the C++ class in a Cython class.
+In other word, simply use compiler directives and compiling the cython file is enough to wrap it.
