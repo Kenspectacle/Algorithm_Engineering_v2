@@ -6,7 +6,17 @@ scheduling algorithm to decide, which thread handles which task at a certain poi
 
 2. Describe some ways to speed up merge sort.
 
+- To speed up merge sort, we can utilize parallelism to solve this problem. Each of the recursive functions 
+can be assigned into tasks in OpenMP, there we are able to run each of the task seperately with a thread.
+
 3. What is the idea behind multithreaded merging?
+
+- The idea is to split up the amount of work done by the threads. The amount of work is divided by two, by having 
+a median in one subarray, and merge together the part before the median and the one after. 
+Two concurrent threads are responsible for the merge. The first one focus on the one before the 
+first median of the array, merging it with the value on the target subarray that is also below the median.
+The second one acts as a complementary thread that finishes merging the value above the median in the subarray with
+the target subarray who also has value above the median previously mentioned.
 
 4. Do the coding warmup on slide 17.
 
