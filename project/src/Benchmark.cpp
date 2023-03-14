@@ -13,11 +13,12 @@ Benchmark::Benchmark()
 
 void Benchmark::finishBenchmark()
 {
+    this->benchmarkStruct.start.push_back(this->programStartTime);
     this->benchmarkStruct.end.push_back(omp_get_wtime());
     this->benchmarkStruct.task.push_back("Whole program");
     std::cout << std::endl
               << this->benchmarkStruct.task[this->structIdx] << " time elapsed: "
-              << this->benchmarkStruct.end[this->structIdx] - this->programStartTime
+              << this->benchmarkStruct.end[this->structIdx++] - this->programStartTime
               << std::endl;
 }
 

@@ -126,6 +126,7 @@ argumentsStruct parseArguments(const int argc, char **argv)
     {
         std::cout << "No thread_num given, using 4 deafault threads." << std::endl;
         omp_set_num_threads(4);
+        arguments.numThreads = 4;
     }
 
     if (arguments.isExtremeMode)
