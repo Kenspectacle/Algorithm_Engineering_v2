@@ -1,0 +1,17 @@
+<<< Pseudo code for a parallel PI program >>>
+
+thread_list;
+num_step = N;
+width = 1 / num_steps;
+sum = 0;
+
+for (i : num_steps)
+    thread () -> {
+        x = i + 0.5 * width
+        sum = 1.0 / (1.0 + x * x)
+    }
+    threads.add(thread())
+}
+
+sum = reduce(threads, +)
+pi = sum * 4 * width;
