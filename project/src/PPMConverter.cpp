@@ -93,8 +93,7 @@ void PPMConverter::extractPixelMatrix(std::vector<std::vector<int>> &imageMatrix
 #pragma omp simd
             for (int k = 0; k < 3; k++) // Calculate the greyValue using r, g and b of one pixel
             {
-                unsigned char pixelValue = (unsigned char)pixelArray[idx + k];
-                rgb[k] = (int)pixelValue;
+                rgb[k] = (int)(unsigned char)pixelArray[idx + k];
             }
 
             int greyValue = (rgb[0] * 0.299) + (rgb[1] * 0.587) + (rgb[2] * 0.114);
